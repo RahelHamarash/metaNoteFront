@@ -1,0 +1,31 @@
+/*subsidebar closed */
+.sidebar{
+
+    -webkit-box-shadow: 0px 5px 20px -2px rgba(87,87,87,1);
+    -moz-box-shadow: 0px 10px 20px -2px rgba(87,87,87,1);
+    box-shadow: 0px 11px 26px -2px rgba(87,87,87,1);
+
+}
+
+/* subsidebar open */
+.mainSidebar{
+
+    width:50px ; 
+    transition: .5s;
+    -webkit-box-shadow: 0px 11px 26px -2px rgba(87,87,87,1);
+    -moz-box-shadow: 0px 11px 26px -2px rgba(87,87,87,1);
+    box-shadow: 0px 11px 26px -2px rgba(87,87,87,1);
+    transition: .5s;
+
+
+}
+
+.subSidebar{
+
+    
+    width: calc(100% - 50px); 
+    display: flex; 
+    justify-content:center ;
+    transition: .5s;
+}
+    

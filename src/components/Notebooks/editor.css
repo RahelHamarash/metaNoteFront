@@ -1,0 +1,138 @@
+.scroll{
+
+    overflow-y:auto;
+    scrollbar-color: auto;
+    
+    
+  }
+  .scroll::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+    
+  }
+  .scroll::-webkit-scrollbar-button {
+    width: 0px;
+    height: 0px;
+    -webkit-box-shadow: inset 1px 1px 2px rgba(0,0,0,0.2);
+  
+  
+  }
+  .scroll::-webkit-scrollbar-thumb {
+    background: rgb(240, 201, 129);
+    border: 0px none rgb(252, 210, 132);
+    border-radius: 61px;
+  }
+  .scroll::-webkit-scrollbar-thumb:hover {
+    background: orange;
+  }
+  .scroll::-webkit-scrollbar-thumb:active {
+    background: orange;
+  
+  }
+  .scroll::-webkit-scrollbar-track {
+    background: #ffffff;
+    border: 0px none #ffffff;
+    border-radius: 50px;
+  }
+  .scroll::-webkit-scrollbar-track:hover {
+    background: #ffffff;
+  }
+  .scroll::-webkit-scrollbar-track:active {
+    background: #ffffff;
+  
+  }
+  .scroll::-webkit-scrollbar-corner {
+    background: transparent;
+  }
+  
+  .scroll::-webkit-scrollbar-button:vertical:decrement {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='%235a6268'><polygon points='0,50 100,50 50,0'/></svg>");
+  }
+  
+  .scroll::-webkit-scrollbar-button:vertical:increment {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100' fill='%235a6268'><polygon points='0,0 100,0 50,50'/></svg>");
+  }
+
+.grid{
+
+ 
+}
+
+/* tinymce */
+
+.tox-notifications-container{
+
+  display: none;
+}
+
+.tox .tox-form__group:last-child{
+
+  display: none ;
+}
+/* .tox .tox-button{
+
+  background-color: orange !important;
+  border-color: orange !important;
+} */
+
+.tox-icon .tox-tbtn__icon-wrap{
+
+  display: none;
+}
+
+.tox:not([dir=rtl]) .tox-toolbar__group:not(:last-of-type){
+
+
+  border-right: none;
+}
+
+.tox .tox-statusbar{
+
+  border-top:none !important;
+}
+
+.tox .tox-toolbar, .tox .tox-toolbar__overflow, .tox .tox-toolbar__primary{
+
+  background: none !important;
+}
+
+.tox:not([dir=rtl]) .tox-toolbar__group:not(:last-of-type){
+
+  border-right:inset !important;
+}
+
+.tox:not([dir=rtl]){
+
+  border: none !important;
+}
+
+.tox .tox-tbtn{
+
+  font-size: 12px !important;
+}
+
+
+.tox .tox-tbtn--enabled, .tox .tox-tbtn--enabled:hover{
+
+  background-color: white !important;
+}
+
+.tox .tox-tbtn:hover{
+
+  background-color:white !important;
+}
+
+.tox .tox-tbtn--enabled svg, .tox .tox-tbtn--enabled:hover svg{
+
+  fill: orange !important;
+}
+
+.tox .tox-tbtn :not(:disabled){
+
+  cursor: pointer !important;
+}
+
+
+.tox-edit-area{-webkit-animation:tox-edit-area .5s cubic-bezier(.215,.61,.355,1.000) both;animation:tox-edit-area .5s cubic-bezier(.215,.61,.355,1.000) both}
+@-webkit-keyframes tox-edit-area{0%{letter-spacing:-.5em;-webkit-transform:translateZ(-700px);transform:translateZ(-700px);opacity:0}40%{opacity:.6}100%{-webkit-transform:translateZ(0);transform:translateZ(0);opacity:1}}@keyframes tox-edit-area{0%{letter-spacing:-.5em;-webkit-transform:translateZ(-700px);transform:translateZ(-700px);opacity:0}40%{opacity:.6}100%{-webkit-transform:translateZ(0);transform:translateZ(0);opacity:1}}
+

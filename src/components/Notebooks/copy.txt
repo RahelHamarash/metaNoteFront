@@ -1,0 +1,51 @@
+    if(this.props.noteRequesterFailed !== null && this.props.noteRequesterFailed === this.props.item.note._id){
+      
+      contentStyle.paddingLeft = showSidebar ? styles.sidebarWidth + 0 : 0
+      contentStyle.paddingTop = showSidebar ? styles.topBarHeight + 0 : styles.topBarHeight + 0
+      contentStyle.paddingBottom = showSidebar ? 0 : styles.footerMenuHeight + 0
+      contentStyle.paddingRight = 0
+      
+      return(
+        <div  style={contentStyle} >
+          <Dimmer.Dimmable as={Segment} dimmed={true} style={{width:"100%" , height:"100%" }}>
+            
+            <TinyMce 
+              
+              showSidebar={showSidebar}             
+              item={this.props.item} postNote={this.props.postNote} 
+              changeNoteStatus={this.props.changeNoteStatus} 
+              noteRequester={this.props.noteRequester}
+              fetchNote={this.props.fetchNote}
+
+            />
+            <Dimmer
+              verticalAlign='top'
+              active={true}
+              style={{display:"flex", alignContent:"center",justifyContent:"center"}}
+            >
+              <div style={{}}>
+                <p style={{color:"#D8000C"}}>connection failed</p>
+                <svg xmlns="http://www.w3.org/2000/svg" width="50" style={{alignContent:"center", justifyContent:"center"}} height="50" viewBox="0 0 24 24" fill="#A50203">
+                  <path d="M12 2c5.514 0 10 4.486 10 10s-4.486 10-10 10-10-4.486-10-10 4.486-10 10-10zm0-2c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.001 14c-2.332 0-4.145 1.636-5.093 2.797l.471.58c1.286-.819 2.732-1.308 4.622-1.308s3.336.489 4.622 1.308l.471-.58c-.948-1.161-2.761-2.797-5.093-2.797zm-3.501-6c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5-.672-1.5-1.5-1.5zm7 0c-.828 0-1.5.671-1.5 1.5s.672 1.5 1.5 1.5 1.5-.671 1.5-1.5-.672-1.5-1.5-1.5z"/>
+                </svg>
+              </div>
+            </Dimmer>
+          </Dimmer.Dimmable>
+        </div>
+      )
+    }
+
+
+
+
+
+        <div style={contentStyle}>
+            <TinyMce 
+              
+              showSidebar={showSidebar}             
+              item={this.props.item} postNote={this.props.postNote} 
+              changeNoteStatus={this.props.changeNoteStatus} 
+              noteRequester={this.props.noteRequester}
+              fetchNote={this.props.fetchNote}
+            />
+          </div>
