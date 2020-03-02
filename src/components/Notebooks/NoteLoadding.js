@@ -15,7 +15,7 @@ class NoteLoadding extends Component{
                     </svg>
                 </div>
             :
-                <SpringSpinner color="orange"/>
+                <SpringSpinner color="#5ED3B4"/>
             
         )
     }

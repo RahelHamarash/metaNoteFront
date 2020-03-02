@@ -20,15 +20,15 @@
 
 }
 .scroll::-webkit-scrollbar-thumb {
-  background: rgb(240, 201, 129);
-  border: 0px none rgb(252, 210, 132);
+  background: #5ED3B4(240, 201, 129);
+  border: 0px none #5ED3B4(252, 210, 132);
   border-radius: 61px;
 }
 .scroll::-webkit-scrollbar-thumb:hover {
-  background: orange;
+  background: #5ED3B4;
 }
 .scroll::-webkit-scrollbar-thumb:active {
-  background: orange;
+  background: #5ED3B4;
 
 }
 .scroll::-webkit-scrollbar-track {

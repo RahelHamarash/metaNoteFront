@@ -3,7 +3,7 @@ import {Icon , Card , Image , Header , Divider , Button , Popup , Modal, Input} 
 import 'semantic-ui-css/semantic.min.css'
 import "./notes.css"
 import {Link} from "react-router-dom"
-import {HalfCircleSpinner} from 'react-epic-spinners'
+import {HalfCircleSpinner } from 'react-epic-spinners'
 
 class Notes extends Component{
 
@@ -83,8 +83,9 @@ class Notes extends Component{
     this.props.renameNotebook(notebook_id)
   }
 
-  handleRename(bool){
+  handleRename(e,bool){
 
+    e.preventDefault()
     this.props.handleRename(bool)
   }
 
@@ -115,6 +116,7 @@ class Notes extends Component{
     }
 
     const {notebookValue , noteStatus} = this.props
+    let value = this.props.notebookValue.notebook_title
 
     
     return (
@@ -125,18 +127,27 @@ class Notes extends Component{
           <Fragment>
             <Header as="h2" color="grey" style={{ display:"flex" , justifyContent:"flex-start" }}>
               <span >{notebookValue.notebook_title}</span>
-              <a style={{marginLeft:"10px"}} href="#"  title="Rename" onClick={() => this.handleRename(true)}> 
+              <a style={{marginLeft:"10px"}} href="#"  title="Rename" onClick={(e) => this.handleRename(e,true)}> 
                 <svg xmlns="http://www.w3.org/2000/svg" width="24" height="25" viewBox="0 0 24 24" fill="grey">
                   <path d="M18 14.45v6.55h-16v-12h6.743l1.978-2h-10.721v16h20v-10.573l-2 2.023zm1.473-10.615l1.707 1.707-9.281 9.378-2.23.472.512-2.169 9.292-9.388zm-.008-2.835l-11.104 11.216-1.361 5.784 5.898-1.248 11.103-11.218-4.536-4.534z"/>
                 </svg>
               </a>
-                <Modal size={"mini"} open={this.props.openRenameModal} onClose={() => this.handleRename(false)}>
-                  <Modal.Header style={{color:"grey"}}>Rename Notebook</Modal.Header>
+                <Modal size={"mini"} open={this.props.openRenameModal} onClose={this.props.renameStatus === "resolved" ? (e) => this.handleRename(e,false) : null}>
+                  <Modal.Header style={{color:"grey" , display:"flex" , width:"100%"}}>
+                    <span style={{width:"95%"}}>Rename Notebook</span>
+                    <a onClick={(e) => this.handleRename(e,false)} href="#" style={{width:"5%"}}>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="grey">
+                        <path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"/>
+                      </svg>
+                    </a>
+                  </Modal.Header>
                   <Modal.Content>
-                    <Input id="renameNotebook" placeholder="Type Notebook Name" size="big" style={{width:"100%"}} />
+                    <Input id="renameNotebook" placeholder="Type Notebook Name" defaultValue={value} size="big" style={{width:"100%"}} />
+                    {this.props.renameStatus === "failed" ? <p style={{color:"#D8000C" , paddingTop:"5px"}}>failed to  rename notebook , please check connection</p> : null}
                   </Modal.Content>
-                  <Modal.Actions>
-                    <Button style={{backgroundColor:"orange"}} onClick={(e) => this.renameNotebook(e,notebookValue._id)} type="submit">Submit</Button>
+                  <Modal.Actions style={{display:"flex", flexDirection:"row" , justifyContent:"flex-end"}}>                    
+                      {this.props.renameStatus === "loading" ? <HalfCircleSpinner color="#5ED3B4" size={25} style={{marginTop:"5px",marginRight:"8px"}}/> : null}
+                      <Button style={{backgroundColor:"#5ED3B4"}} onClick={(e) => this.renameNotebook(e,notebookValue._id)} type="submit">Submit</Button>
                   </Modal.Actions>
                 </Modal>
 
@@ -202,7 +213,7 @@ class Notes extends Component{
               <div style={{color:"#ff6666", fontSize:"14px" }}>connection failed</div>
             </div>
             :
-              <HalfCircleSpinner color="orange"/>
+              <HalfCircleSpinner color="#5ED3B4"/>
         }
       </div>
     );

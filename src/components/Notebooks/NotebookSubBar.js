@@ -15,10 +15,7 @@ class NotebookSubBar extends Component{
     super(props)
     this.state = {
 
-      newNotebook:false,
-      searchHover:false,
-      open:false
-      
+      searchHover:false,      
     }
     this.changeArrow = this.changeArrow.bind(this)
     this.loadNotes = this.loadNotes.bind(this)
@@ -94,6 +91,12 @@ class NotebookSubBar extends Component{
     this.props.notebooksFetchFailedRetry()
   }
 
+  hanldeNotebookAdding(e,bool){
+
+    e.preventDefault()
+    this.props.hanldeNotebookAdding(bool)
+  }
+
 
   
   render(){
@@ -134,21 +137,34 @@ class NotebookSubBar extends Component{
               <span style={menuItemStyle}>
                 {this.props.state.addingNotebook === "loading" ?
 
-                  <FulfillingBouncingCircleSpinner color="orange" size={25}/>                
-                  : 
-                  <Popup pinned wide hideOnScroll position="bottom center" onClose={() => this.handleOpen(false)} onOpen={() => this.handleOpen(true)} open={this.state.open} trigger={
-                    <a title="Add New Notebook"  href="#">
-                      <svg width="23" height="23" xmlns="http://www.w3.org/2000/svg"   fill={this.state.open ? "orange" : "grey"} >
+                  <FulfillingBouncingCircleSpinner color="#5ED3B4" size={25}/>                
+                  :
+                  <Fragment> 
+                    <a title="Add New Notebook"  href="#" onClick={(e) => this.hanldeNotebookAdding(e,true)}>
+                      <svg width="23" height="23" xmlns="http://www.w3.org/2000/svg" fill="grey">
                         <path d="M7 2c1.695 1.942 2.371 3 4 3h13v17h-24v-20h7zm4 5c-2.339 0-3.537-1.388-4.917-3h-4.083v16h20v-13h-11zm2 6h3v2h-3v3h-2v-3h-3v-2h3v-3h2v3z"/>
                       </svg>
                     </a>
-                  } on='click'>
-                      <form style={{display:"flex" }} onSubmit={this.addNotebook}>
-                        <Input id="addNotebookInput" placeholder="Type Notebook Name" style={{width:"70%" , fontSize:"12px"}}/>
-                        <Button  primary style={{width:"30%" , fontSize:"12px"}} type="submit">Submit</Button>
-                      </form>
-
-                  </Popup>
+                    <Modal size={"mini"} open={this.props.state.openNewNotebookModal} onClose={this.props.state.notebookAddingStatus === "resolved" ? (e) => this.hanldeNotebookAdding(e,false) : null}>
+                    <Modal.Header style={{color:"grey" , display:"flex" , width:"100%"}}>
+                      <span style={{width:"95%"}}>Add New Notebook</span>
+                      <a onClick={(e) => this.hanldeNotebookAdding(e,false)} href="#" style={{width:"5%"}}>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 24 24" fill="grey">
+                          <path d="M24 20.188l-8.315-8.209 8.2-8.282-3.697-3.697-8.212 8.318-8.31-8.203-3.666 3.666 8.321 8.24-8.206 8.313 3.666 3.666 8.237-8.318 8.285 8.203z"/>
+                        </svg>
+                      </a>
+                    </Modal.Header>
+                    <Modal.Content>
+                      <Input id="addNotebookInput" placeholder="Type Notebook Name" size="big" style={{width:"100%"}} />
+                      {this.props.state.notebookAddingStatus === "failed" ? <p style={{color:"#D8000C" , paddingTop:"5px"}}>failed to  add notebook , please check connection</p> : null}
+                    </Modal.Content>
+                    <Modal.Actions style={{display:"flex", flexDirection:"row" , justifyContent:"flex-end"}}>                    
+                        {this.props.state.notebookAddingStatus === "loading" ? <HalfCircleSpinner color="#5ED3B4" size={25} style={{marginTop:"5px",marginRight:"8px"}}/> : null}
+                        <Button style={{backgroundColor:"#5ED3B4"}} onClick={(e) => this.addNotebook(e)} type="submit">Submit</Button>
+                    </Modal.Actions>
+                  </Modal>
+                </Fragment>
+                
                 }
 
               </span>
@@ -158,7 +174,7 @@ class NotebookSubBar extends Component{
                     onMouseEnter={this.searchHover}
                     onMouseLeave={this.searchHover}
                     >
-                  <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 24 24"  fill={this.state.searchHover ? "orange" :"grey"}>
+                  <svg xmlns="http://www.w3.org/2000/svg" width="23" height="23" viewBox="0 0 24 24"  fill={this.state.searchHover ? "#5ED3B4" :"grey"}>
                     <path d="M21.172 24l-7.387-7.387c-1.388.874-3.024 1.387-4.785 1.387-4.971 0-9-4.029-9-9s4.029-9 9-9 9 4.029 9 9c0 1.761-.514 3.398-1.387 4.785l7.387 7.387-2.828 2.828zm-12.172-8c3.859 0 7-3.14 7-7s-3.141-7-7-7-7 3.14-7 7 3.141 7 7 7z"/>
                   </svg>
                 </a>
@@ -180,8 +196,8 @@ class NotebookSubBar extends Component{
                 return (
                   <div style={{marginBottom:30 , display:"flex", flexDirection:"column" , justifyContent:"space-between" , paddingLeft:"15px" }} key={item._id}>
                     <div style={{display:"flex" }}>
-                      <a style={{color:"white" , paddingRight:"7px" }}  onClick={this.changeArrow} href="#"><Icon className="arrow" id={item._id} state="false" name={this.props.state[item._id] ? "arrow down" :"arrow right"} link style={{color:this.props.state[item._id] ? "orange" : "white" }} /></a>
-                      <Link to={this.props.state[`${item._id}${item._id}`] ? '/' : `/notebooks/${item._id}/notes` } style={{color:this.props.state[`${item._id}${item._id}`] ? "orange":"white" , wordWrap: "break-word"  }} id={`${item._id}${item._id}`}  className="notebooks" onClick={(e) => this.loadNotes( e, item._id)} >{item.notebook_title}</Link>
+                      <a style={{color:"white" , paddingRight:"7px" }}  onClick={this.changeArrow} href="#"><Icon className="arrow" id={item._id} state="false" name={this.props.state[item._id] ? "arrow down" :"arrow right"} link style={{color:this.props.state[item._id] ? "#5ED3B4" : "white" }} /></a>
+                      <Link to={this.props.state[`${item._id}${item._id}`] ? '/' : `/notebooks/${item._id}/notes` } style={{color:this.props.state[`${item._id}${item._id}`] ? "#5ED3B4":"white" , wordWrap: "break-word"  }} id={`${item._id}${item._id}`}  className="notebooks" onClick={(e) => this.loadNotes( e, item._id)} >{item.notebook_title}</Link>
 
                     </div>
 
@@ -196,7 +212,7 @@ class NotebookSubBar extends Component{
                               to={ this.props.state[note._id] ? '/':  `/notebooks/${item._id}/notes/${note._id}/show` }                              
                               onClick={(e) => this.openEditor(e,{ _id:item._id , notebook_title:item.notebook_title , note:{ _id:note._id , note_title:note.note_title }})} 
                               id={note._id} 
-                              style={{paddingBottom:"3px" , color:this.props.state[note._id] ? "orange" : "white"}} 
+                              style={{paddingBottom:"3px" , color:this.props.state[note._id] ? "#5ED3B4" : "white"}} 
                               className="truncate" title={note.note_title}  id={note._id}
                                   
                               >
@@ -228,7 +244,7 @@ class NotebookSubBar extends Component{
 
           </div>
           :
-          <SpringSpinner color="orange" />
+          <SpringSpinner color="#5ED3B4" />
           }
 
         </div>

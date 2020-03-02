@@ -33,13 +33,15 @@ class App extends Component {
       sidebarOpen:true,
       notebook_id:null,
       noteUnmounted:'initial',
-      addingNotebook:'initial',
+      notebookAddingStatus:'initial',
       openRenameModal:false,
       notebookRequester:null,
       noteRequester:null,
       isReactReady:false,
       notebooksFetchFailed:false,
       notebookFetchFailed:false,
+      renameStatus:'initial',
+      openNewNotebookModal:false
 
     }
 
@@ -59,6 +61,7 @@ class App extends Component {
     this.handleRename = this.handleRename.bind(this)
     this.notebooksFetchFailedRetry = this.notebooksFetchFailedRetry.bind(this)
     this.notebookFetchFailedRetry = this.notebookFetchFailedRetry.bind(this)
+    this.hanldeNotebookAdding = this.hanldeNotebookAdding.bind(this)
 
   }
 
@@ -330,12 +333,19 @@ class App extends Component {
     this.setState({openRenameModal:bool})
   }
 
+  hanldeNotebookAdding(bool){
+
+    this.setState({openNewNotebookModal:bool})
+  }
+
   addNewNotebook(e){
 
-    this.setState({addingNotebook:"loading"})
+    this.setState({notebookAddingStatus:"loading"})
 
     fetch('http://localhost:3333/notebooks', {
       method: 'POST',
+      retries: 5, 
+      retryDelay: 1000,
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -347,7 +357,8 @@ class App extends Component {
     .then(result => result.json())
     .then(json => {
 
-      this.setState({addingNotebook:"added"})
+      this.setState({notebookAddingStatus:"added"})
+      this.hanldeNotebookAdding(false)
       this.setState(state => {
 
         return state.notebooksValue.push(json)
@@ -357,12 +368,21 @@ class App extends Component {
         document.getElementById(`${json._id}${json._id}`).click()
       })
     })
+    .catch(err => {
+
+      this.hanldeNotebookAdding(true)
+      this.setState({notebookAddingStatus:"failed"})
+
+    })
   }
 
   renameNotebook(notebook_id){
 
+    this.setState({renameStatus:'loading'})
     fetch(`http://localhost:3333/notebooks/${notebook_id}`, {
       method: 'put',
+      retries: 5, 
+      retryDelay: 1000,
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
@@ -394,11 +414,17 @@ class App extends Component {
         
 
         this.handleRename(false)
+        this.setState({renameStatus:'resolved'})
+
       }
 
 
     })
-    .catch(err => console.log(err))
+    .catch(err =>{
+
+      this.setState({renameStatus:'failed'})
+
+    })
   }
 
          
@@ -462,6 +488,7 @@ class App extends Component {
                   openNotebooksEditor={this.openNotebooksEditor}
                   addNewNotebook={this.addNewNotebook}
                   notebooksFetchFailedRetry={this.notebooksFetchFailedRetry}
+                  hanldeNotebookAdding={this.hanldeNotebookAdding}
                 />
 
                 <Switch>
@@ -501,6 +528,7 @@ class App extends Component {
                             renameNotebookValue={this.state.renameNotebookValue}
                             handleRename={this.handleRename}
                             openRenameModal={this.state.openRenameModal}
+                            renameStatus={this.state.renameStatus}
                             notebookRequester={this.state.notebookRequester}
                             notebookFetchFailed={this.state.notebookFetchFailed}
                             notebookFetchFailedRetry={this.notebookFetchFailedRetry}
@@ -559,7 +587,7 @@ class App extends Component {
         </Router>
       :
       <div style={{justifyContent:"center" , alignContent:"center"}}>
-        <SpringSpinner color="orange" size={5}/>
+        <SpringSpinner color="#5ED3B4" size={5}/>
       </div>
     )
     

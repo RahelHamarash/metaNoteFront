@@ -1,5 +1,6 @@
 import React, { Component ,Fragment } from "react";
 import tinymce from "tinymce/tinymce";
+import { CircleSpinner } from "react-spinners-kit"
 import "tinymce/themes/silver";
 import "tinymce/plugins/wordcount";
 import "tinymce/plugins/table"
@@ -21,8 +22,6 @@ import "tinymce/plugins/image"
 import "tinymce/plugins/media"
 import "tinymce/plugins/directionality"
 import "tinymce/plugins/paste"
-import {Icon, Message} from "semantic-ui-react"
-import {Idle} from "idlejs/dist"
 import 'semantic-ui-css/semantic.min.css'
 import {HalfCircleSpinner,SpringSpinner} from 'react-epic-spinners'
 const originalFetch = require('isomorphic-fetch')
@@ -237,7 +236,6 @@ class TinyMce extends Component {
       setup: editor => {
 
         this.setState({editor:editor})
-        
         editor.on("init", () => {
 
          if(localStorage.getItem(this.props.item.note._id) !== null){
@@ -252,10 +250,12 @@ class TinyMce extends Component {
           editor.setContent(localStorage.getItem(json.note._id))
         }
 
-          this.saveBtnTimeout()
-          this.postRequestTimout()
+        this.saveBtnTimeout()
+        this.postRequestTimout()
 
         })
+
+        editor.setProgressState(true)
 
 
 
@@ -311,10 +311,12 @@ class TinyMce extends Component {
       return (
     
        
+
         <textarea
-          id="tiny"
-          style={{visibility:"hidden"}}
+        id="tiny"
+        style={{visibility:"hidden"}}
         />
+    
         
       )
     }else{
@@ -332,7 +334,7 @@ class TinyMce extends Component {
 
         return(
 
-          <div style={{display:"flex",justifyContent:"center",alignItems:"center" , height:"100%"}}><SpringSpinner color="orange"/></div>
+          <div style={{display:"flex",justifyContent:"center",alignItems:"center" , height:"100%"}}><SpringSpinner color="#5ED3B4"/></div>
 
         )
 

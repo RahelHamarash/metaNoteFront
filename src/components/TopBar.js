@@ -38,7 +38,7 @@ class TopBar extends Component{
 
     return (
       <div style={topBarStyle} className="header">
-        <Button icon="th list" style={{backgroundColor:"white" , color:this.props.sidebarOpen ? "orange" : "grey" }}  size="big" onClick={this.HandleSidebar}/>
+        <Button icon="th list" style={{backgroundColor:"white" , color:this.props.sidebarOpen ? "#5ED3B4" : "grey" }}  size="big" onClick={this.HandleSidebar}/>
       </div>
     )
   }
