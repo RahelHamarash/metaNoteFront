@@ -47,7 +47,7 @@
     "semantic-ui-css": "^2.4.1",
     "semantic-ui-react": "^0.88.2",
     "suneditor": "^2.25.0",
-    "tinymce": "^5.1.6",
+    "tinymce": "^5.6.0",
     "yarn": "^1.22.0"
   },
   "scripts": {
